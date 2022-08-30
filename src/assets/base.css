@@ -76,3 +76,14 @@ li {
   justify-content: flex-start;
   flex-direction: column;
 }
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.green {
+    color: green;
+    background-color: white;
+}

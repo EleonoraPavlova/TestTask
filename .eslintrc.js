@@ -11,12 +11,13 @@ module.exports = {
     rules: {
         'vue/singleline-html-element-content-newline': 'off',
         'vue/multiline-html-element-content-newline': 'off',
+        "vue/html-closing-bracket-newline": 'off',
         "vue/max-attributes-per-line": ["error", {
             "singleline": {
-                "max": 5
+                "max": 6
             },
             "multiline": {
-                "max": 5
+                "max": 8
             }
         }],
         "vue/html-self-closing": ["error", {
@@ -30,7 +31,4 @@ module.exports = {
         }],
         "vue/html-indent": "off"
     }
-
-    // override/add rules settings here, such as:
-    // 'vue/no-unused-vars': 'error'
 }
