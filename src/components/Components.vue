@@ -40,6 +40,7 @@
 					<span :class="['bold', { green: note.length > 5 }]">
 						{{ index + 1 }}, {{ toUpperCase(note) }}</span
 					>
+
 					<Buttons
 						class="button"
 						size="small"
@@ -48,14 +49,48 @@
 						>Delete</Buttons
 					>
 				</li>
-				<hr class="container__hr" />
+
 				<li>
 					<h4 class="bold">Total: {{ notes.length }}</h4>
 					double : {{ doubleCount }}
 				</li>
 			</ul>
-
+			<hr class="container__hr" />
+			<h4 v-once class="margin">{{ title }}</h4>
+			<h4 v-pre class="margin">{{ title }}</h4>
+			<div class="flex-center margin">
+				<h4 v-text="title" />
+				<Buttons
+					class="button"
+					size="small"
+					color="primary"
+					@click="title = 'I is another title'"
+					>Change title
+				</Buttons>
+			</div>
 			<div v-if="notes.length === 0">No notes, add first note please</div>
+			<hr class="container__hr" />
+			<ul class="flex-row container__ul">
+				<li
+					v-for="(item, index) in 15"
+					:key="item"
+					class="flex-between container__item"
+				>
+					<strong>{{ index }}:</strong>{{ item }}
+				</li>
+			</ul>
+			<hr class="container__hr" />
+			<ul class="flex-center container__ul">
+				<!-- v-for="value in person" итерация по обьектам -->
+				<li
+					v-for="(value, key) in person"
+					:key="value"
+					class="margin-l container__item"
+				>
+					{{ key }}:
+					<strong> {{ value }}</strong>
+				</li>
+			</ul>
 		</div>
 	</div>
 </template>
@@ -74,6 +109,11 @@ export default {
 			title: "List notes",
 			inputValue: "",
 			notes: ["note 1", "note 2", "note 3"],
+			person: {
+				firstName: "Eleonora",
+				lastName: "Pavlova",
+				age: 31,
+			},
 		};
 	},
 	computed: {
