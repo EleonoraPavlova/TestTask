@@ -85,7 +85,7 @@
 			<ul class="container__ul">
 				<!-- v-for="value in person" итерация по обьектам -->
 				<li
-					v-for="(number, index) in evenNumbers"
+					v-for="(number, index) in numbers"
 					:key="number"
 					class="margin-l container__item"
 					@click="deleteNumber(index), log(item)"
@@ -137,9 +137,9 @@ export default {
 			return this.notes.length * 2;
 		},
 		// выводим только четные
-		evenNumbers() {
-			return this.numbers.filter((i) => i % 2 === 0);
-		},
+		// evenNumbers() {
+		// 	return this.numbers.filter((i) => i % 2 === 0);
+		// },
 	},
 	watch: {
 		inputValue(value) {
@@ -203,6 +203,8 @@ export default {
 		&_input {
 			padding: 10px;
 			width: 55%;
+			border: 1px solid green;
+			border-radius: 5px;
 		}
 	}
 	&__hr {
