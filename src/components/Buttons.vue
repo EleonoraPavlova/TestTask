@@ -38,6 +38,12 @@ export default {
 		padding: 4px 8px;
 		height: 26px;
 	}
+	&.extra-small {
+		font-size: 16px;
+		padding: 4px 9px;
+		width: 6%;
+		height: 30px;
+	}
 	&.small {
 		font-size: 14px;
 		padding: 3px 6px;
@@ -58,6 +64,7 @@ export default {
 	}
 	&.warning {
 		background-color: #ffb841;
+		opacity: 0.6;
 		color: #fff;
 	}
 	&:hover {

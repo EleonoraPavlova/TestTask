@@ -1,26 +1,17 @@
 <template>
 	<div class="container">
 		<div class="container-box">
-			<h1
-				class="bold pagb"
-				:style="{
-					color: inputValue.length < 5 ? 'red' : 'green',
-					fontSize: inputValue.length < 10 ? '2rem' : '1.5rem',
-				}"
-			>
-				{{ title }}
-			</h1>
+			<H1Title
+				:color="inputValue.length < 5 ? 'chocolate' : 'green'"
+				:font-size="inputValue.length < 5 ? '2rem' : '1.5rem'"
+			/>
 			<div class="flex-center">
 				<div class="container__main">
-					<input
+					<Input
 						v-model="inputValue"
-						type="text"
-						class="container__main_input"
 						:placeholder="placeholderString"
 						@keypress.enter="addNewNote"
 					/>
-					<!--:placeholder="placeholderString" - bind забаиндили динамич значение 
-					@input="inputChangeHandler" вызываем слушатель события, функцию -->
 					<Buttons color="primary" @click="addNewNote">Add</Buttons>
 				</div>
 			</div>
@@ -44,7 +35,7 @@
 					<Buttons
 						class="button"
 						size="small"
-						color="danger"
+						color="warning"
 						@click="deleteNote(index)"
 						>Delete</Buttons
 					>
@@ -55,6 +46,7 @@
 					double : {{ doubleCount }}
 				</li>
 			</ul>
+			<div v-if="notes.length === 0">No notes, add first note please</div>
 			<hr class="container__hr" />
 			<h4 v-once class="margin">{{ title }}</h4>
 			<h4 v-pre class="margin">{{ title }}</h4>
@@ -64,21 +56,12 @@
 					class="button"
 					size="small"
 					color="primary"
-					@click="title = 'I is another title'"
+					@click="title = 'I am another title'"
 					>Change title
 				</Buttons>
 			</div>
-			<div v-if="notes.length === 0">No notes, add first note please</div>
 			<hr class="container__hr" />
-			<ul class="flex-row container__ul">
-				<li
-					v-for="(item, index) in 15"
-					:key="item"
-					class="flex-between container__item"
-				>
-					<strong>{{ index }}:</strong>{{ item }}
-				</li>
-			</ul>
+			<ArrayNumbers />
 			<hr class="container__hr" />
 			<ul class="flex-center container__ul">
 				<!-- v-for="value in person" итерация по обьектам -->
@@ -91,35 +74,71 @@
 					<strong> {{ value }}</strong>
 				</li>
 			</ul>
+			<hr class="container__hr" />
+			<div class="margin">
+				<Input
+					ref="myInput"
+					:placeholder="placeholderString1"
+					@keyup.enter="addNumber($event)"
+				/>
+			</div>
+			<ul class="container__ul">
+				<!-- v-for="value in person" итерация по обьектам -->
+				<li
+					v-for="(number, index) in evenNumbers"
+					:key="number"
+					class="margin-l container__item"
+					@click="deleteNumber(index), log(item)"
+				>
+					<strong> {{ number }}</strong
+					>&nbsp;
+					<Input @click.stop />
+				</li>
+			</ul>
+			<div v-show="numbers.length === 0">
+				Oops........ You deleted all numbers
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 import Buttons from "./Buttons.vue";
+import Input from "./Input.vue";
+import H1Title from "./H1Title.vue";
+import ArrayNumbers from "./ArrayNumbers.vue";
 export default {
 	name: "Components",
 	components: {
 		Buttons,
+		Input,
+		H1Title,
+		ArrayNumbers,
 	},
 	data() {
 		//данные, которые есть в нашем приложении
 		return {
-			placeholderString: "Enter the note",
-			title: "List notes",
 			inputValue: "",
+			placeholderString: "Enter the note",
+			placeholderString1: "Enter something.....",
+			title: "List notes",
 			notes: ["note 1", "note 2", "note 3"],
 			person: {
 				firstName: "Eleonora",
 				lastName: "Pavlova",
 				age: 31,
 			},
+			numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9],
 		};
 	},
 	computed: {
 		doubleCount() {
 			console.log("doubleCount");
 			return this.notes.length * 2;
+		},
+		// выводим только четные
+		evenNumbers() {
+			return this.numbers.filter((i) => i % 2 === 0);
 		},
 	},
 	watch: {
@@ -143,6 +162,12 @@ export default {
 		toUpperCase(item) {
 			return item.toUpperCase();
 		},
+		addNumber(event) {
+			//вообще это если доступ нужен к html, не к компоненте
+			this.numbers.unshift(this.$refs.myInput.value);
+			this.$refs.myInput.value = "";
+			console.log(event.key);
+		},
 		// inputKeyPress(event) {
 		// 	//функц, чтобы узнать какая кнопка была нажата пользователем
 		// 	console.log(event.key);
@@ -152,6 +177,17 @@ export default {
 		// },
 		deleteNote(index) {
 			this.notes.splice(index, 1);
+		},
+		deleteNumber(index) {
+			this.numbers.splice(index, 1);
+			// this.inputValue = "";
+		},
+		// чтобы не было удаление по клику от родителя или пишем на элемент @click.stop
+		stopPropagation(event) {
+			event.stopPropagation();
+		},
+		log(item) {
+			console.log("Log item:", item);
 		},
 	},
 };
